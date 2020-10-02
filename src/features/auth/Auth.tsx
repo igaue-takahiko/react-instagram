@@ -48,6 +48,7 @@ const Auth: React.FC = () => {
     return (
         <div>
             <Modal
+            style={customStyles}
                 isOpen={openSingUp}
                 onRequestClose={async () => {
                     dispatch(resetOpenSignUp)
@@ -87,7 +88,7 @@ const Auth: React.FC = () => {
                         errors,
                         touched,
                         isValid,
-                    }) =>
+                    }) => (
                         <div>
                             <form onSubmit={handleSubmit}>
                                 <div className={styles.auth_signUp}>
@@ -98,7 +99,7 @@ const Auth: React.FC = () => {
                                     </div>
                                     <br/>
                                     <TextField
-                                        placeholder="email" type="input" name="email"
+                                        placeholder="メールアドレス" type="input" name="email"
                                         onChange={handleChange} onBlur={handleBlur} value={values.email}
                                     />
                                     <br/>
@@ -107,7 +108,7 @@ const Auth: React.FC = () => {
                                     ) : null
                                     }
                                     <TextField
-                                        placeholder="password" type="password" name="password"
+                                        placeholder="パスワード" type="password" name="password"
                                         onChange={handleChange} onBlur={handleBlur} value={values.password}
                                     />
                                     {touched.password && errors.password ? (
@@ -136,7 +137,98 @@ const Auth: React.FC = () => {
                                 </div>
                             </form>
                         </div>
+                    )}
+                </Formik>
+            </Modal>
+            <Modal
+                style={customStyles}
+                isOpen={openSingIn}
+                onRequestClose={async () => {
+                    await dispatch(resetOpenSignIn())
+                }}
+            >
+                <Formik
+                initialErrors={{ email: "required" }}
+                initialValues={{ email: "", password: "" }}
+                onSubmit={async values => {
+                    await dispatch(fetchCredStart())
+                    const result = await dispatch(fetchAsyncLogin(values))
+                    if (fetchAsyncLogin.fulfilled.match(result)) {
+                        await dispatch(fetchAsyncGetProfiles())
+                        // await dispatch()
+                        // await dispatch()
+                        await dispatch(fetchAsyncGetMyProfile())
                     }
+                    await dispatch(fetchCredEnd())
+                    await dispatch(resetOpenSignIn())
+                }}
+                validationSchema={Yup.object().shape({
+                    email: Yup.string()
+                    .email("メールアドレスが間違っています。")
+                    .required("メールアドレスは必須です。"),
+                    password: Yup.string().required("パスワードは必須です。").min(4)
+                })}
+                >
+                    {({
+                        handleSubmit,
+                        handleChange,
+                        handleBlur,
+                        values,
+                        errors,
+                        touched,
+                        isValid
+                    }) => (
+                        <div>
+                            <form onSubmit={handleSubmit}>
+                                <div className={styles.auth_signUp}>
+                                    <h1 className={styles.auth_title}>Instagram</h1>
+                                    <br/>
+                                    <div className={styles.auth_progress}>
+                                        {isLoadingAuth && <CircularProgress />}
+                                    </div>
+                                    <br/>
+                                    <TextField
+                                        placeholder="メールアドレス" type="input" name="email"
+                                        onChange={handleChange} onBlur={handleBlur} value={values.email}
+                                    />
+                                    {touched.email && errors.email ? (
+                                        <div className={styles.auth_error}>{errors.email}</div>
+                                    ) : null
+                                    }
+                                    <br/>
+                                    <TextField
+                                        placeholder="パスワード" type="password" name="password"
+                                        onChange={handleChange} onBlur={handleBlur} value={values.password}
+                                    />
+                                    {touched.password && errors.password ? (
+                                        <div className={styles.auth_error}>{errors.password}</div>
+                                    ) : null
+                                    }
+                                    <br/>
+                                    <br/>
+                                    <Button
+                                        variant="contained"
+                                        color="primary"
+                                        disabled={!isValid}
+                                        type="submit"
+                                    >
+                                        ログインする
+                                    </Button>
+                                    <br/>
+                                    <br/>
+                                    <span
+                                        className={styles.auth_text}
+                                        onClick={async () => {
+                                            await dispatch(resetOpenSignIn())
+                                            await dispatch(setOpenSignUp())
+                                        }}
+                                    >
+                                        新規の方はこちら
+                                    </span>
+                                </div>
+                            </form>
+                        </div>
+                    )}
                 </Formik>
             </Modal>
         </div>
