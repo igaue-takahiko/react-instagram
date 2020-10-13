@@ -3,7 +3,7 @@ import React from 'react'
 import styles from './App.module.css'
 import Core from './features/core/Core'
 
-function App() {
+const App =() => {
     return (
         <div className={styles.app}>
             <Core />
@@ -11,4 +11,4 @@ function App() {
     )
 }
 
-export default App;
+export default App

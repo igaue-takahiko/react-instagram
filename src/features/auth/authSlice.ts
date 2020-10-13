@@ -90,7 +90,7 @@ export const authSlice = createSlice({
         openSignUp: false,
         openProfile: false,
         isLoadingAuth: false,
-        myProfile: {
+        myprofile: {
             id: 0,
             nickName: "",
             userProfile: 0,
@@ -134,7 +134,7 @@ export const authSlice = createSlice({
             state.openProfile = false
         },
         editNickName (state, action) {
-            state.myProfile.nickName = action.payload
+            state.myprofile.nickName = action.payload
         }
     },
     extraReducers: (builder) => {
@@ -142,16 +142,16 @@ export const authSlice = createSlice({
             localStorage.setItem("localJWT", action.payload.access)
         })
         builder.addCase(fetchAsyncCreateProfile.fulfilled, (state, action) => {
-            state.myProfile = action.payload
+            state.myprofile = action.payload
         })
         builder.addCase(fetchAsyncGetMyProfile.fulfilled, (state, action) => {
-            state.myProfile = action.payload
+            state.myprofile = action.payload
         })
         builder.addCase(fetchAsyncGetProfiles.fulfilled, (state, action) => {
             state.profiles = action.payload
         })
         builder.addCase(fetchAsyncUpdateProfile.fulfilled, (state, action) => {
-            state.myProfile = action.payload
+            state.myprofile = action.payload
             state.profiles = state.profiles.map(profile =>
                 profile.id === action.payload.id ? action.payload : profile
             )
@@ -176,7 +176,7 @@ export const selectIsLoadingAuth = (state: RootState) => state.auth.isLoadingAut
 export const selectOpenSignIn = (state: RootState) => state.auth.openSignIn
 export const selectOpenSignUp = (state: RootState) => state.auth.openSignUp
 export const selectOpenProfile = (state: RootState) => state.auth.openProfile
-export const selectProfile = (state: RootState) => state.auth.myProfile
+export const selectProfile = (state: RootState) => state.auth.myprofile
 export const selectProfiles = (state: RootState) => state.auth.profiles
 
 export default authSlice.reducer
