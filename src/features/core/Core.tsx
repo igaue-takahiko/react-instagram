@@ -12,6 +12,7 @@ import { MdAddAPhoto } from 'react-icons/md'
 
 import { AppDispatch } from '../../app/store'
 import Auth from '../auth/Auth'
+import Post from '../post/Post'
 import styles from './Core.module.css'
 
 import {
@@ -166,6 +167,14 @@ const Core: React.FC = () => {
                         <Grid container spacing={4}>
                             {posts.slice(0).reverse().map(post => (
                                 <Grid key={post.id} item xs={12} md={4}>
+                                    <Post
+                                        postId={post.id}
+                                        title={post.title}
+                                        loginId={profile.userProfile}
+                                        userPost={post.userPost}
+                                        imageUrl={post.img}
+                                        liked={post.liked}
+                                    />
                                 </Grid>
                             ))}
                         </Grid>

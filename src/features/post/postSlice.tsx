@@ -11,7 +11,7 @@ export const fetchAsyncGetPosts = createAsyncThunk(
     async () => {
         const res = await axios.get(apiUrlPost, {
             headers: {
-                postorization: `JWT ${localStorage.localJWT}`,
+                Authorization: `JWT ${localStorage.localJWT}`,
             }
         })
         return res.data
@@ -27,7 +27,7 @@ export const fetchAsyncNewPost = createAsyncThunk(
         const res = await axios.post(apiUrlPost, uploadData, {
             headers: {
                 "Content-Type": "application/json",
-                postorization: `JWT ${localStorage.localJWT}`,
+                Authorization: `JWT ${localStorage.localJWT}`,
             }
         })
         return res.data
@@ -56,7 +56,7 @@ export const fetchAsyncPatchLiked = createAsyncThunk(
             const res = await axios.put(`${apiUrlPost}${liked.id}/`, uploadData, {
                 headers: {
                     "Content-Type": "application/json",
-                    postorization: `JWT ${localStorage.localJWT}`,
+                    Authorization: `JWT ${localStorage.localJWT}`,
                 }
             })
             return res.data
@@ -64,7 +64,7 @@ export const fetchAsyncPatchLiked = createAsyncThunk(
         const res = await axios.patch(`${apiUrlPost}${liked.id}/`, uploadData, {
             headers: {
                 "Content-Type": "application/json",
-                postorization: `JWT ${localStorage.localJWT}`,
+                Authorization: `JWT ${localStorage.localJWT}`,
             }
         })
         return res.data
@@ -76,7 +76,7 @@ export const fetchAsyncGetComments = createAsyncThunk(
     async () => {
         const res = await axios.get(apiUrlComment, {
             headers: {
-                postorization: `JWT ${localStorage.localJWT}`,
+                Authorization: `JWT ${localStorage.localJWT}`,
             }
         })
         return res.data
@@ -88,7 +88,7 @@ export const fetchAsyncPostComment = createAsyncThunk(
     async (comment: PROPS_COMMENT) => {
         const res = await axios.post(apiUrlComment, comment, {
             headers: {
-                postorization: `JWT ${localStorage.localJWT}`,
+                Authorization: `JWT ${localStorage.localJWT}`,
             }
         })
         return res.data

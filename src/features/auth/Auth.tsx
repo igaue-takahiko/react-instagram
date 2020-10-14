@@ -8,6 +8,8 @@ import { Button, CircularProgress, TextField } from '@material-ui/core';
 import { AppDispatch } from '../../app/store'
 import  styles from './Auth.module.css'
 
+import { fetchAsyncGetComments, fetchAsyncGetPosts } from '../post/postSlice'
+
 import {
     selectIsLoadingAuth,
     selectOpenSignIn,
@@ -24,6 +26,7 @@ import {
     fetchAsyncGetMyProfile,
     fetchAsyncGetProfiles,
 } from './authSlice'
+
 
 const customStyles = {
     overlay : {
@@ -66,8 +69,8 @@ const Auth: React.FC = () => {
                             await dispatch(fetchAsyncCreateProfile({ nickName: "anonymous" }))
 
                             await dispatch(fetchAsyncGetProfiles())
-                            // await dispatch()
-                            // await dispatch()
+                            await dispatch(fetchAsyncGetPosts())
+                            await dispatch(fetchAsyncGetComments())
                             await dispatch(fetchAsyncGetMyProfile())
                         }
                         await dispatch(fetchCredEnd())
@@ -155,8 +158,8 @@ const Auth: React.FC = () => {
                     const result = await dispatch(fetchAsyncLogin(values))
                     if (fetchAsyncLogin.fulfilled.match(result)) {
                         await dispatch(fetchAsyncGetProfiles())
-                        // await dispatch()
-                        // await dispatch()
+                        await dispatch(fetchAsyncGetPosts())
+                        await dispatch(fetchAsyncGetComments())
                         await dispatch(fetchAsyncGetMyProfile())
                     }
                     await dispatch(fetchCredEnd())
