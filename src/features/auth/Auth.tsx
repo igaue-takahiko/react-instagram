@@ -51,14 +51,14 @@ const Auth: React.FC = () => {
             style={customStyles}
                 isOpen={openSingUp}
                 onRequestClose={async () => {
-                    dispatch(resetOpenSignUp)
+                    await dispatch(resetOpenSignUp)
                 }}
             >
                 <Formik
                     initialErrors={{ email: "required" }}
                     initialValues={{ email: "", password: "" }}
                     onSubmit={async values => {
-                        dispatch(fetchCredStart())
+                        await dispatch(fetchCredStart())
                         const resultReg = await dispatch(fetchAsyncRegister(values))
 
                         if (fetchAsyncRegister.fulfilled.match(resultReg)) {
@@ -70,8 +70,8 @@ const Auth: React.FC = () => {
                             // await dispatch()
                             await dispatch(fetchAsyncGetMyProfile())
                         }
-                        dispatch(fetchCredEnd())
-                        dispatch(resetOpenSignUp())
+                        await dispatch(fetchCredEnd())
+                        await dispatch(resetOpenSignUp())
                     }}
                     validationSchema={Yup.object().shape({
                         email: Yup.string()
@@ -127,9 +127,9 @@ const Auth: React.FC = () => {
                                     <br/>
                                     <span
                                     className={styles.auth_text}
-                                    onChange={async () => {
-                                        await dispatch(setOpenSignIn())
-                                        await dispatch(resetOpenSignUp())
+                                    onChange={() => {
+                                        dispatch(setOpenSignIn())
+                                        dispatch(resetOpenSignUp())
                                     }}
                                     >
                                         アカウントをお持ちの方はこちら
@@ -218,9 +218,9 @@ const Auth: React.FC = () => {
                                     <br/>
                                     <span
                                         className={styles.auth_text}
-                                        onClick={async () => {
-                                            await dispatch(resetOpenSignIn())
-                                            await dispatch(setOpenSignUp())
+                                        onClick={() => {
+                                            dispatch(resetOpenSignIn())
+                                            dispatch(setOpenSignUp())
                                         }}
                                     >
                                         新規の方はこちら
