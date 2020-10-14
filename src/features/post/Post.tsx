@@ -139,7 +139,7 @@ const Post: React.FC<PROPS_POST> = ({
                         type="submit"
                         onClick={postComment}
                     >
-                        Post
+                        追加する
                     </button>
                 </form>
             </div>
